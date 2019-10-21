@@ -7,7 +7,7 @@ const novosTweets = [
     "Tweet Novo 2"
 ]
 
-render()
+// render()
 
 setInterval(function(){
     const novosTweetsDoServidor = [
@@ -17,7 +17,7 @@ setInterval(function(){
     // spread operator ...
     novosTweets.unshift(...novosTweetsDoServidor)
 
-    render()
+    // render()
 }, 5000)
 
 
@@ -28,7 +28,7 @@ $formNovoTweet.addEventListener("submit", function poeTweet(evento) {
     const conteudoTweet = $textArea.value
     novosTweets.unshift(conteudoTweet)
     
-    render()
+    // render()
 })
 
 
