@@ -118,9 +118,13 @@
     <!-- TODO Usar módulos -->
     <script src="js/lib/react.js"></script>
     <script src="js/lib/react-dom.js"></script>
-
+    <script src="js/lib/babel6.js"></script>
+        
+    <script type="text/babel" src="js/components/Tweet/index.js" data-plugins="transform-es2015-modules-umd" data-presets="es2015, react"></script>
+    
     <!-- Ponto de entrada  -->
-    <script src="js/index.js"></script>
+    <!-- jsx, ts, tsx, es2015 -->
+    <script type="text/babel" src="js/index.js" data-plugins="transform-es2015-modules-umd" data-presets="es2015, react"></script>
 </body>
 
 </html>
