@@ -2,7 +2,7 @@ const $tweetsArea = document.querySelector(".tweetsArea")
 const $formNovoTweet = document.querySelector(".novoTweet")
 const $textArea = document.querySelector('.novoTweet__editor')
 
-const novosTweets = [
+const listaTweets = [
     "Tweet Novo 1",
     "Tweet Novo 2"
 ]
@@ -15,7 +15,7 @@ setInterval(function(){
         "Tweet Servidor 2"
     ]
     // spread operator ...
-    novosTweets.unshift(...novosTweetsDoServidor)
+    listaTweets.unshift(...novosTweetsDoServidor)
 
     // render()
 }, 5000)
@@ -26,7 +26,7 @@ $formNovoTweet.addEventListener("submit", function poeTweet(evento) {
 
     // Aqui seria um Request para mandar p/ servidor/. AJAX
     const conteudoTweet = $textArea.value
-    novosTweets.unshift(conteudoTweet)
+    listaTweets.unshift(conteudoTweet)
     
     // render()
 })
@@ -46,7 +46,7 @@ function render() {
     // }
     
     // Declarativo
-    for(const tweet of novosTweets) {
+    for(const tweet of listaTweets) {
         $tweetsArea.innerHTML += criaTweet(tweet)
     }
 }
