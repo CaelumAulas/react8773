@@ -2,7 +2,9 @@ import React from 'react'
 
 import './tweet.css'
 
-export function Tweet(conteudo) {
+// Componente é uma função
+export function Tweet(props) {
+    // RETORNA um Elemento
     return (
         <article className="tweet">
             <div className="tweet__cabecalho">
@@ -10,7 +12,7 @@ export function Tweet(conteudo) {
                 <span className="tweet__nomeUsuario">Fulano de Tal</span>
                 <a href="/"><span className="tweet__userName">@usuario</span></a>
             </div>
-            <p className="tweet__conteudo">{ conteudo }</p>
+            <p className="tweet__conteudo">{ props.children }</p>
             <footer className="tweet__footer">
                 <button className="btn btn--clean">
                     <svg className="icon icon--small iconHeart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5">
@@ -25,7 +27,7 @@ export function Tweet(conteudo) {
                             </path>
                         </g>
                     </svg>
-                    0
+                    { props.qtLikes }
                 </button>
             </footer>
         </article>
