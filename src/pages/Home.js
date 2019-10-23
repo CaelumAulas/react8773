@@ -1,6 +1,13 @@
 import React from 'react'
 
-import { Tweet } from '../components/Tweet/Tweet.js'
+import { 
+    Cabecalho, 
+    NavMenu, 
+    Dashboard, 
+    Widget, 
+    TrendsArea, 
+    Tweet 
+} from '../components/index.js'
 
 const listaTweets = [
     "Tweet 1",
@@ -12,42 +19,13 @@ const listaTweets = [
 export function Home() {
     return (
     <React.Fragment>
-        <header className="cabecalho">
-            <div className="cabecalho__container container">
-                <h1 className="cabecalho__logo">
-                    <a href="/">Twitelum</a>
-                </h1>
-                <nav className="navMenu">
-                    <ul className="navMenu__lista">
-                        <li className="navMenu__item">
-                            <a className="navMenu__link" href="/">
-                                Bem vindo(a): <br />
-                                <strong> @usuario</strong>
-                            </a>
-                        </li>
-                        <li className="navMenu__item">
-                            <a className="navMenu__link" href="/">
-                                Página Inicial
-                            </a>
-                        </li>
-                        <li className="navMenu__item">
-                            <a className="navMenu__link" href="/hashtags">
-                                Hashtags
-                            </a>
-                        </li>
-                        <li className="navMenu__item">
-                            <a className="navMenu__link" href="/logout">
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
+        <Cabecalho>
+            <NavMenu usuario="@artdiniz"></NavMenu>
+        </Cabecalho>
         
         <div className="container">
-            <div className="dashboard">
-                <div className="widget">
+            <Dashboard>
+                <Widget>
                     <form className="novoTweet">
                         <div className="novoTweet__editorArea">
                             <span className="novoTweet__status">0/140</span>
@@ -55,20 +33,14 @@ export function Home() {
                         </div>
                         <button type="submit" className="novoTweet__envia">Tweetar</button>
                     </form>
-                </div>
-                <div className="widget">
-                    <div className="trendsArea">
-                        <h2 className="trendsArea__titulo widget__titulo">Trends Brasil</h2>
-                        <ol className="trendsArea__lista">
-                            <li><a href="/">#bagulhos</a></li>
-                            <li><a href="/">#bagulheiros</a></li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
+                </Widget>
+                <Widget>
+                    <TrendsArea></TrendsArea>
+                </Widget>
+            </Dashboard>
 
-            <div className="dashboard dashboard__centro">
-                <div className="widget">
+            <Dashboard posicao="centro">
+                <Widget>
                     <div className="tweetsArea">
                         { listaTweets.map(conteudo => (
                             <Tweet qtLikes={2} > 
@@ -76,8 +48,8 @@ export function Home() {
                             </Tweet>
                         )) }
                     </div>
-                </div>
-            </div>
+                </Widget>
+            </Dashboard>
         </div>
     </React.Fragment>
     )
