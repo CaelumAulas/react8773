@@ -8,9 +8,9 @@ import './css/icon.css'
 import './css/iconHeart.css'
 import './css/notificacao.css'
 
-import { Home } from './pages/Home.js'
+import {App} from './App.js'
 
 ReactDOM.render(
-    <Home/>,
+    <App />,
     document.querySelector('#rootReact')
 )

@@ -1,4 +1,7 @@
 import React from "react";
+
+import { Link } from 'react-router-dom'
+
 import navMenuStyles from "./navMenu.module.css";
 
 function NavMenu(props) {
@@ -12,9 +15,9 @@ function NavMenu(props) {
           </a>
         </li>
         <li className={navMenuStyles.navMenu__item}>
-          <a className={navMenuStyles.navMenu__link} href="/">
+          <Link className={navMenuStyles.navMenu__link} to="/login">
             Página Inicial
-          </a>
+          </Link>
         </li>
         <li className={navMenuStyles.navMenu__item}>
           <a className={navMenuStyles.navMenu__link} href="/hashtags">
