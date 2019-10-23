@@ -10,13 +10,6 @@ import './css/icon.css'
 import './css/iconHeart.css'
 import './css/notificacao.css'
 
-import './css/cabecalho.css'
-import './css/navMenu.css'
-import './css/dashboard.css'
-import './css/widget.css'
-import './css/novoTweet.css'
-import './css/trendsArea.css'
-
 ReactDOM.render(
     <Home/>,
     document.querySelector('#rootReact')
