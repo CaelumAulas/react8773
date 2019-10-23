@@ -17,7 +17,7 @@ import './css/widget.css'
 import './css/novoTweet.css'
 import './css/trendsArea.css'
 
-ReactDOM.hydrate(
+ReactDOM.render(
     <Home/>,
-    document.querySelector('body')
+    document.querySelector('#rootReact')
 )
