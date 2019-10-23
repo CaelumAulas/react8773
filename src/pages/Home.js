@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import isBrowser from 'is-browser' 
 
 import '../css/novoTweet.css'
 
@@ -18,6 +20,21 @@ const listaTweets = [
 ]
 
 export function Home() {
+
+    useEffect(function() {
+        if(isBrowser) {
+            // Efeito.
+            // Side effect
+            // Se quiser acessar o DOM
+            const $textArea = document.querySelector('.novoTweet__editor')
+            $textArea.addEventListener("input", function () {
+                const conteudoTweet = $textArea.value
+                alert(conteudoTweet)
+            })
+        }
+    })
+
+
     return (
     <React.Fragment>
         <Cabecalho>
