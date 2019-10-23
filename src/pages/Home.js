@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react'
-
-import isBrowser from 'is-browser' 
+import React, { useState } from 'react'
 
 import '../css/novoTweet.css'
 
@@ -21,19 +19,15 @@ const listaTweets = [
 
 export function Home() {
 
-    useEffect(function() {
-        if(isBrowser) {
-            // Efeito.
-            // Side effect
-            // Se quiser acessar o DOM
-            const $textArea = document.querySelector('.novoTweet__editor')
-            $textArea.addEventListener("input", function () {
-                const conteudoTweet = $textArea.value
-                alert(conteudoTweet)
-            })
-        }
-    })
+    const [ textoTweet, setTextoTweet ] = useState("")
+    
+    function onTextareaChange(evento) {
+        const $textArea = evento.target
+        setTextoTweet($textArea.value)
+    }
 
+    const isTweetInvalido = textoTweet.length > 140
+    const classeStatus = "novoTweet__status " +  (isTweetInvalido ? "novoTweet__status--invalido" : "")
 
     return (
     <React.Fragment>
@@ -46,10 +40,10 @@ export function Home() {
                 <Widget>
                     <form className="novoTweet">
                         <div className="novoTweet__editorArea">
-                            <span className="novoTweet__status">0/140</span>
-                            <textarea className="novoTweet__editor" placeholder="O que está acontecendo?"></textarea>
+                            <span className={ classeStatus }>{ textoTweet.length }/140</span>
+                            <textarea className="novoTweet__editor" placeholder="O que está acontecendo?" onChange={ onTextareaChange }></textarea>
                         </div>
-                        <button type="submit" className="novoTweet__envia">Tweetar</button>
+                        <button disabled={ isTweetInvalido }  type="submit" className="novoTweet__envia">Tweetar</button>
                     </form>
                 </Widget>
                 <Widget>
