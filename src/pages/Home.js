@@ -1,5 +1,7 @@
 import React from 'react'
 
+import '../css/novoTweet.css'
+
 import { 
     Cabecalho, 
     NavMenu, 
@@ -14,7 +16,6 @@ const listaTweets = [
     "Tweet 2",
     "Tweet 3"
 ]
-
 
 export function Home() {
     return (
