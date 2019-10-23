@@ -11,19 +11,19 @@ import {
     Tweet 
 } from '../components/index.js'
 
-const listaTweets = [
-    "Tweet 1",
-    "Tweet 2",
-    "Tweet 3"
-]
-
 export function Home() {
 
     const [ textoTweet, setTextoTweet ] = useState("")
+    const [ listaTweets, setListaTweets ] = useState([])
     
     function onTextareaChange(evento) {
         const $textArea = evento.target
         setTextoTweet($textArea.value)
+    }
+
+    function onFormSubmit(evento) {
+        evento.preventDefault()
+        setListaTweets([ textoTweet , ...listaTweets])
     }
 
     const isTweetInvalido = textoTweet.length > 140
@@ -38,7 +38,7 @@ export function Home() {
         <div className="container">
             <Dashboard>
                 <Widget>
-                    <form className="novoTweet">
+                    <form className="novoTweet" onSubmit={ onFormSubmit }>
                         <div className="novoTweet__editorArea">
                             <span className={ classeStatus }>{ textoTweet.length }/140</span>
                             <textarea className="novoTweet__editor" placeholder="O que está acontecendo?" onChange={ onTextareaChange }></textarea>
