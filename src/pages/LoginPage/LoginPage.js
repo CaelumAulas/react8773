@@ -4,6 +4,7 @@ import { Widget } from '../../components/Widget/Widget.js'
 
 import './loginPage.css'
 
+import * as LoginService from '../../model/services/LoginService.js'
 
 // Custom hooks
 // High Order Function
@@ -39,6 +40,12 @@ function LoginPage() {
         const isValidoSubmit = usuario.length !== 0 && senha.length !== 0
 
         setIsValido(isValidoSubmit)
+
+        if(isValidoSubmit) {
+            LoginService.logar(usuario, senha)
+                .catch(error => setIsValido(false))
+        }
+
     }
 
     return (
@@ -60,7 +67,7 @@ function LoginPage() {
                             {
                                 !isValido
                                     ? <div className="loginPage__errorBox">
-                                        Senha ou usuário vazio
+                                        Senha ou usuário inválido
                                       </div>
                                     : ''
                             }
