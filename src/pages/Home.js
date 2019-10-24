@@ -55,7 +55,7 @@ export function Home() {
                 <Widget>
                     <div className="tweetsArea">
                         { listaTweets.map(conteudo => (
-                            <Tweet qtLikes={2} > 
+                            <Tweet qtLikes={ "oi" } > 
                                 {conteudo} 
                             </Tweet>
                         )) }
