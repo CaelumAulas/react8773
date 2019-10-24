@@ -4,9 +4,28 @@ import { Widget } from '../../components/Widget/Widget.js'
 
 import './loginPage.css'
 
-function LoginPage() {
 
-    const [isValido, setIsValido] = useState(true)
+// Custom hooks
+// High Order Function
+function useStateBooleano(valorInicial) {
+    const [ valorDaVariavel, setValorDaVariavelReact] = useState(valorInicial)
+
+    const setValorDaVariavel = function(valorNovo) {
+        if(typeof valorNovo !== "boolean") {
+            throw Error("Tipo inválido: " + typeof valorNovo)
+        }
+
+        setValorDaVariavelReact(valorNovo)
+    }
+
+    return [
+        valorDaVariavel,
+        setValorDaVariavel
+    ]
+}
+
+function LoginPage() {
+    const [isValido, setIsValido] = useStateBooleano(true)
 
     const $inputLogin = useRef(null)
     const $inputSenha = useRef(null)
