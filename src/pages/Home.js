@@ -15,12 +15,10 @@ import {
 
 import { Redirect } from 'react-router-dom'
 
-export function Home() {
-    const [ textoTweet, setTextoTweet ] = useState("")
-    const [ listaTweets, setListaTweets ] = useState([])
 
-    const isAutenticado = LoginService.isAutenticado()
-    
+function FormNovoTweet(props) {
+    const [ textoTweet, setTextoTweet ] = useState("")
+
     function onTextareaChange(evento) {
         const $textArea = evento.target
         setTextoTweet($textArea.value)
@@ -28,11 +26,45 @@ export function Home() {
 
     function onFormSubmit(evento) {
         evento.preventDefault()
-        setListaTweets([ textoTweet , ...listaTweets])
+        // Aqui tem que adicionar um tweet. Ma não tem onde
+        props.onNovoTweet(textoTweet)
     }
 
     const isTweetInvalido = textoTweet.length > 140
     const classeStatus = "novoTweet__status " +  (isTweetInvalido ? "novoTweet__status--invalido" : "")
+
+    return (
+        <form className="novoTweet" onSubmit={ onFormSubmit }>
+            <div className="novoTweet__editorArea">
+                <span className={ classeStatus }>{ textoTweet.length }/140</span>
+                <textarea className="novoTweet__editor" placeholder="O que está acontecendo?" onChange={ onTextareaChange }></textarea>
+            </div>
+            <button disabled={ isTweetInvalido }  type="submit" className="novoTweet__envia">Tweetar</button>
+        </form>
+    )
+}
+
+// 
+
+function AreaNovoTweet(props) {
+    return (
+        <React.Fragment>
+            Firula em cima
+            <FormNovoTweet onNovoTweet={props.onNovoTweet} />
+            Firula embaixo
+        </React.Fragment>
+    )
+}
+
+export function Home() {
+    const isAutenticado = LoginService.isAutenticado()
+
+    const [ listaTweets, setListaTweets ] = useState([])
+
+    function adicionaTweet(novoTweet) {
+        alert("oi")
+        setListaTweets([ novoTweet , ...listaTweets])
+    }
 
     const $pagina = (
         <React.Fragment>
@@ -43,13 +75,7 @@ export function Home() {
             <div className="container">
                 <Dashboard>
                     <Widget>
-                        <form className="novoTweet" onSubmit={ onFormSubmit }>
-                            <div className="novoTweet__editorArea">
-                                <span className={ classeStatus }>{ textoTweet.length }/140</span>
-                                <textarea className="novoTweet__editor" placeholder="O que está acontecendo?" onChange={ onTextareaChange }></textarea>
-                            </div>
-                            <button disabled={ isTweetInvalido }  type="submit" className="novoTweet__envia">Tweetar</button>
-                        </form>
+                       <AreaNovoTweet onNovoTweet={adicionaTweet} />
                     </Widget>
                     <Widget>
                         <TrendsArea></TrendsArea>
@@ -82,6 +108,7 @@ export function Home() {
 }
 
 // High Order Component
+// HOC
 function withCondicao(qualElemento) {
     return function ComCondicao(props) {
         return (
