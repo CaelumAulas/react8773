@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 
 import '../css/novoTweet.css'
+
+import * as LoginService from '../model/services/LoginService.js'
 
 import { 
     Cabecalho, 
@@ -11,10 +13,13 @@ import {
     Tweet 
 } from '../components/index.js'
 
-export function Home() {
+import { Redirect } from 'react-router-dom'
 
+export function Home() {
     const [ textoTweet, setTextoTweet ] = useState("")
     const [ listaTweets, setListaTweets ] = useState([])
+
+    const isAutenticado = LoginService.isAutenticado()
     
     function onTextareaChange(evento) {
         const $textArea = evento.target
@@ -29,40 +34,72 @@ export function Home() {
     const isTweetInvalido = textoTweet.length > 140
     const classeStatus = "novoTweet__status " +  (isTweetInvalido ? "novoTweet__status--invalido" : "")
 
-    return (
-    <React.Fragment>
-        <Cabecalho>
-            <NavMenu usuario="@artdiniz"></NavMenu>
-        </Cabecalho>
-        
-        <div className="container">
-            <Dashboard>
-                <Widget>
-                    <form className="novoTweet" onSubmit={ onFormSubmit }>
-                        <div className="novoTweet__editorArea">
-                            <span className={ classeStatus }>{ textoTweet.length }/140</span>
-                            <textarea className="novoTweet__editor" placeholder="O que está acontecendo?" onChange={ onTextareaChange }></textarea>
-                        </div>
-                        <button disabled={ isTweetInvalido }  type="submit" className="novoTweet__envia">Tweetar</button>
-                    </form>
-                </Widget>
-                <Widget>
-                    <TrendsArea></TrendsArea>
-                </Widget>
-            </Dashboard>
+    const $pagina = (
+        <React.Fragment>
+            <Cabecalho>
+                <NavMenu usuario="@artdiniz"></NavMenu>
+            </Cabecalho>
+            
+            <div className="container">
+                <Dashboard>
+                    <Widget>
+                        <form className="novoTweet" onSubmit={ onFormSubmit }>
+                            <div className="novoTweet__editorArea">
+                                <span className={ classeStatus }>{ textoTweet.length }/140</span>
+                                <textarea className="novoTweet__editor" placeholder="O que está acontecendo?" onChange={ onTextareaChange }></textarea>
+                            </div>
+                            <button disabled={ isTweetInvalido }  type="submit" className="novoTweet__envia">Tweetar</button>
+                        </form>
+                    </Widget>
+                    <Widget>
+                        <TrendsArea></TrendsArea>
+                    </Widget>
+                </Dashboard>
 
-            <Dashboard posicao="centro">
-                <Widget>
-                    <div className="tweetsArea">
-                        { listaTweets.map(conteudo => (
-                            <Tweet qtLikes={ "oi" } > 
-                                {conteudo} 
-                            </Tweet>
-                        )) }
-                    </div>
-                </Widget>
-            </Dashboard>
-        </div>
-    </React.Fragment>
+                <Dashboard posicao="centro">
+                    <Widget>
+                        <div className="tweetsArea">
+                            { listaTweets.map(conteudo => (
+                                <Tweet qtLikes={ "oi" } > 
+                                    {conteudo} 
+                                </Tweet>
+                            )) }
+                        </div>
+                    </Widget>
+                </Dashboard>
+            </div>
+        </React.Fragment>
+    )
+
+    return (
+        <Fragment>
+                {isAutenticado
+                    ? $pagina
+                    : <Redirect to="/login" />
+                }
+        </Fragment>
+    )
+}
+
+// High Order Component
+function withCondicao(qualElemento) {
+    return function ComCondicao(props) {
+        return (
+            <Fragment>
+                {props.condicao
+                    ? qualElemento
+                    : props.outroElemento
+                }
+            </Fragment>
+        )
+    }
+}
+
+const HomeComCondicao = withCondicao(Home)
+
+function HomeHighOrder(props) {
+    const isAutenticado = LoginService.isAutenticado()
+    return (
+        <HomeComCondicao {...props} condicao={isAutenticado} outroElemento={<Redirect to="/login" />} />
     )
 }
