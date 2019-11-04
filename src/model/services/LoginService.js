@@ -1,5 +1,10 @@
 const URL_API = process.env.REACT_APP_URL_API
 
+export function isAutenticado() {
+    // Login inocente
+    return localStorage.getItem('TOKEN') !== null
+}
+
 export async function logar(usuario, senha) {
     const response = await fetch(URL_API + '/login', {
         method: "POST",

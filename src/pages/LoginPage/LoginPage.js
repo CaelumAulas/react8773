@@ -6,6 +6,8 @@ import './loginPage.css'
 
 import * as LoginService from '../../model/services/LoginService.js'
 
+import { Redirect } from 'react-router-dom'
+
 // Custom hooks
 // High Order Function
 function useStateBooleano(valorInicial) {
@@ -25,8 +27,10 @@ function useStateBooleano(valorInicial) {
     ]
 }
 
-function LoginPage() {
+function LoginPage(props) {
     const [isValido, setIsValido] = useStateBooleano(true)
+
+    const isAutenticado = LoginService.isAutenticado()
 
     const $inputLogin = useRef(null)
     const $inputSenha = useRef(null)
@@ -43,13 +47,14 @@ function LoginPage() {
 
         if(isValidoSubmit) {
             LoginService.logar(usuario, senha)
+                .then(() => props.history.push("/"))
                 .catch(error => setIsValido(false))
         }
 
     }
 
-    return (
-        <Fragment>
+    const $pagina = (
+        <React.Fragment>
             <Cabecalho />
             <div className="loginPage">
                 <div className="container">
@@ -68,7 +73,7 @@ function LoginPage() {
                                 !isValido
                                     ? <div className="loginPage__errorBox">
                                         Senha ou usuário inválido
-                                      </div>
+                                    </div>
                                     : ''
                             }
 
@@ -81,6 +86,15 @@ function LoginPage() {
                     </Widget>
                 </div>
             </div>
+        </React.Fragment>
+    )
+
+    return (
+        <Fragment>
+            {!isAutenticado
+                ? $pagina
+                : <Redirect to="/" />
+            }
         </Fragment>
     )
 }
