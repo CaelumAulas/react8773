@@ -1,4 +1,4 @@
-import React, { useState, useRef, Fragment } from 'react'
+import React, { useState, useRef } from 'react'
 import { Cabecalho } from '../../components/Cabecalho/Cabecalho.js'
 import { Widget } from '../../components/Widget/Widget.js'
 
@@ -6,7 +6,7 @@ import './loginPage.css'
 
 import * as LoginService from '../../model/services/LoginService.js'
 
-import { Redirect } from 'react-router-dom'
+import { withPermissao } from  '../withPermissao.js'
 
 // Custom hooks
 // High Order Function
@@ -27,10 +27,8 @@ function useStateBooleano(valorInicial) {
     ]
 }
 
-function LoginPage(props) {
+function LoginPageSemAutenticacao(props) {
     const [isValido, setIsValido] = useStateBooleano(true)
-
-    const isAutenticado = LoginService.isAutenticado()
 
     const $inputLogin = useRef(null)
     const $inputSenha = useRef(null)
@@ -53,7 +51,7 @@ function LoginPage(props) {
 
     }
 
-    const $pagina = (
+    return (
         <React.Fragment>
             <Cabecalho />
             <div className="loginPage">
@@ -88,16 +86,7 @@ function LoginPage(props) {
             </div>
         </React.Fragment>
     )
-
-    return (
-        <Fragment>
-            {!isAutenticado
-                ? $pagina
-                : <Redirect to="/" />
-            }
-        </Fragment>
-    )
 }
 
 
-export {LoginPage}
+export const LoginPage = withPermissao(LoginPageSemAutenticacao)
