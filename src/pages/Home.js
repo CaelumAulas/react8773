@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 
 import '../css/novoTweet.css'
 
-import * as LoginService from '../model/services/LoginService.js'
-
 import { 
     Cabecalho, 
     NavMenu, 
@@ -13,13 +11,11 @@ import {
     Tweet 
 } from '../components/index.js'
 
-import { Redirect } from 'react-router-dom'
+import { withPermissao } from  './withPermissao.js'
 
-export function Home() {
+function HomeSemAutenticacao() {
     const [ textoTweet, setTextoTweet ] = useState("")
     const [ listaTweets, setListaTweets ] = useState([])
-
-    const isAutenticado = LoginService.isAutenticado()
     
     function onTextareaChange(evento) {
         const $textArea = evento.target
@@ -34,7 +30,7 @@ export function Home() {
     const isTweetInvalido = textoTweet.length > 140
     const classeStatus = "novoTweet__status " +  (isTweetInvalido ? "novoTweet__status--invalido" : "")
 
-    const $pagina = (
+    return (
         <React.Fragment>
             <Cabecalho>
                 <NavMenu usuario="@artdiniz"></NavMenu>
@@ -70,13 +66,6 @@ export function Home() {
             </div>
         </React.Fragment>
     )
-
-    return (
-        <React.Fragment>
-            {isAutenticado
-                ? $pagina
-                : <Redirect to="/login" />
-            }
-        </React.Fragment>
-    )
 }
+
+export const Home = withPermissao(HomeSemAutenticacao)

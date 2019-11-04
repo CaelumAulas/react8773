@@ -1,16 +1,22 @@
 import React from 'react'
 
-import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { Home } from './pages/Home.js'
 import { LoginPage } from './pages/LoginPage/LoginPage.js'
+
+import * as LoginService from './model/services/LoginService.js'
 
 export function App() {
     return (
         <Router>
             <Switch>
-                <Route path="/" component={ Home } exact={true}/>
-                <Route path="/login" component={ LoginPage } />
+                <Route path="/" exact={true} render={(routerProps) => (
+                    <Home {...routerProps} isAcessoPermitido={ LoginService.isAutenticado() } redirectPermissaoNegada="/login" />
+                )} />
+                <Route path="/login" render={(routerProps) => (
+                    <LoginPage {...routerProps} isAcessoPermitido={ !LoginService.isAutenticado() } redirectPermissaoNegada="/" />
+                )} />
             </Switch>
         </Router>
     )
