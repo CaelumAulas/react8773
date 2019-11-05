@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import '../css/novoTweet.css'
-
 import { 
     Cabecalho, 
     NavMenu, 
@@ -13,22 +11,28 @@ import {
 
 import { withPermissao } from  './withPermissao.js'
 
+import { FormNovoTweet } from '../components/FormNovoTweet/FormNovoTweet.js'
+
+function AreaNovoTweet(props) {
+    return (
+        <React.Fragment>
+            <p> Coisas novas em cima </p>
+            <br />
+            <br />
+            <FormNovoTweet onNovoTweet={props.onNovoTweet} />
+            <br />
+            <br />
+            <p> Coisas novas embaixo </p>
+        </React.Fragment>
+    )
+}
+
 function HomeSemAutenticacao() {
-    const [ textoTweet, setTextoTweet ] = useState("")
     const [ listaTweets, setListaTweets ] = useState([])
-    
-    function onTextareaChange(evento) {
-        const $textArea = evento.target
-        setTextoTweet($textArea.value)
-    }
 
-    function onFormSubmit(evento) {
-        evento.preventDefault()
-        setListaTweets([ textoTweet , ...listaTweets])
+    function adicionaTweet(novoTweet) {
+        setListaTweets([ novoTweet , ...listaTweets])
     }
-
-    const isTweetInvalido = textoTweet.length > 140
-    const classeStatus = "novoTweet__status " +  (isTweetInvalido ? "novoTweet__status--invalido" : "")
 
     return (
         <React.Fragment>
@@ -39,13 +43,7 @@ function HomeSemAutenticacao() {
             <div className="container">
                 <Dashboard>
                     <Widget>
-                        <form className="novoTweet" onSubmit={ onFormSubmit }>
-                            <div className="novoTweet__editorArea">
-                                <span className={ classeStatus }>{ textoTweet.length }/140</span>
-                                <textarea className="novoTweet__editor" placeholder="O que está acontecendo?" onChange={ onTextareaChange }></textarea>
-                            </div>
-                            <button disabled={ isTweetInvalido }  type="submit" className="novoTweet__envia">Tweetar</button>
-                        </form>
+                       <AreaNovoTweet onNovoTweet={adicionaTweet} />
                     </Widget>
                     <Widget>
                         <TrendsArea></TrendsArea>
