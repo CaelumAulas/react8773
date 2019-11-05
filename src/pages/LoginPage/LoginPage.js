@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext } from 'react'
 import { Cabecalho } from '../../components/Cabecalho/Cabecalho.js'
 import { Widget } from '../../components/Widget/Widget.js'
+
+import { NotificacaoContexto } from '../../components/NotificacaoProvider/NotificacaoProvider.js'
 
 import './loginPage.css'
 
@@ -33,6 +35,8 @@ function LoginPageSemAutenticacao(props) {
     const $inputLogin = useRef(null)
     const $inputSenha = useRef(null)
 
+    const contexto = useContext(NotificacaoContexto)
+
     function onFormSubmit(evento) {
         evento.preventDefault()
 
@@ -45,7 +49,10 @@ function LoginPageSemAutenticacao(props) {
 
         if(isValidoSubmit) {
             LoginService.logar(usuario, senha)
-                .then(() => props.history.push("/"))
+                .then(() => {
+                    contexto.notificar("Logado com sucesso")
+                    props.history.push("/")
+                })
                 .catch(error => setIsValido(false))
         }
 

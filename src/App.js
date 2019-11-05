@@ -7,8 +7,11 @@ import { LoginPage } from './pages/LoginPage/LoginPage.js'
 
 import * as LoginService from './model/services/LoginService.js'
 
+import { NotificacaoProvider } from './components/NotificacaoProvider/NotificacaoProvider.js'
+
 export function App() {
     return (
+    <NotificacaoProvider>
         <Router>
             <Switch>
                 <Route path="/" exact={true} render={(routerProps) => (
@@ -19,5 +22,6 @@ export function App() {
                 )} />
             </Switch>
         </Router>
+    </NotificacaoProvider>
     )
 }
