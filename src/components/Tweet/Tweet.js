@@ -33,6 +33,12 @@ export function Tweet(props) {
                     </svg>
                     { props.totalLikes }
                 </button>
+                {
+                    props.removivel &&
+                    <button onClick={props.removeHandler} className="btn btn--blue btn--remove">
+                        X
+                    </button>
+                }
             </footer>
         </article>
     )

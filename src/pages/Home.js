@@ -39,6 +39,14 @@ function HomeSemAutenticacao() {
             })
     }
 
+    function removeTweet(id) {
+        TweetsService
+            .remove(id)
+            .then(() => {
+                setListaTweets(listaTweets.filter(({_id}) => id !== _id))
+            })
+    }
+
     useEffect(() => {
         TweetsService.carrega()
             .then((tweets) => {
@@ -66,7 +74,7 @@ function HomeSemAutenticacao() {
                     <Widget>
                         <div className="tweetsArea">
                             { listaTweets.map(tweetInfo => (
-                                <Tweet {...tweetInfo} > 
+                                <Tweet {...tweetInfo} removeHandler={() => removeTweet(tweetInfo._id)}> 
                                     {tweetInfo.conteudo} 
                                 </Tweet>
                             )) }
