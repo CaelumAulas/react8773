@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 
 import { 
     Cabecalho, 
@@ -12,6 +12,8 @@ import {
 import { withPermissao } from  './withPermissao.js'
 
 import { FormNovoTweet } from '../components/FormNovoTweet/FormNovoTweet.js'
+
+import * as TweetsService from '../model/services/TweetsService.js'
 
 function AreaNovoTweet(props) {
     return (
@@ -31,8 +33,18 @@ function HomeSemAutenticacao() {
     const [ listaTweets, setListaTweets ] = useState([])
 
     function adicionaTweet(novoTweet) {
-        setListaTweets([ novoTweet , ...listaTweets])
+        TweetsService.adiciona(novoTweet)
+            .then((novoTweetInfo) => {
+                setListaTweets([ novoTweetInfo , ...listaTweets])
+            })
     }
+
+    useEffect(() => {
+        TweetsService.carrega()
+            .then((tweets) => {
+                setListaTweets(tweets)
+            })
+    }, [])
 
     return (
         <React.Fragment>
@@ -53,9 +65,9 @@ function HomeSemAutenticacao() {
                 <Dashboard posicao="centro">
                     <Widget>
                         <div className="tweetsArea">
-                            { listaTweets.map(conteudo => (
-                                <Tweet qtLikes={ "oi" } > 
-                                    {conteudo} 
+                            { listaTweets.map(tweetInfo => (
+                                <Tweet {...tweetInfo} > 
+                                    {tweetInfo.conteudo} 
                                 </Tweet>
                             )) }
                         </div>

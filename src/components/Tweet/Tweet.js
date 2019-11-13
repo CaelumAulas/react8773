@@ -12,14 +12,14 @@ export function Tweet(props) {
     return (
         <article className="tweet">
             <div className="tweet__cabecalho">
-                <img className="tweet__fotoUsuario" src="https://placehold.it/50x50" alt="" />
-                <span className="tweet__nomeUsuario">Fulano de Tal</span>
-                <a href="/"><span className="tweet__userName">@usuario</span></a>
+                <img className="tweet__fotoUsuario" src={props.usuario.foto} alt="" />
+                <span className="tweet__nomeUsuario">{props.usuario.nome} {props.usuario.sobrenome}</span>
+                <a href="/"><span className="tweet__userName">@{props.usuario.login}</span></a>
             </div>
             <p className="tweet__conteudo">{ props.children }</p>
             <footer className="tweet__footer">
                 <button className="btn btn--clean">
-                    <svg className="icon icon--small iconHeart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5">
+                    <svg className={"icon icon--small iconHeart " + (props.likeado ? 'iconHeart--active' : '')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5">
                         <defs>
                             <clipPath id="a">
                                 <path d="M0 38h38V0H0v38z"></path>
@@ -31,7 +31,7 @@ export function Tweet(props) {
                             </path>
                         </g>
                     </svg>
-                    { props.qtLikes }
+                    { props.totalLikes }
                 </button>
             </footer>
         </article>
