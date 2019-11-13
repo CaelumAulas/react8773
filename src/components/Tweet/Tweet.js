@@ -16,7 +16,7 @@ export function Tweet(props) {
                 <span className="tweet__nomeUsuario">{props.usuario.nome} {props.usuario.sobrenome}</span>
                 <a href="/"><span className="tweet__userName">@{props.usuario.login}</span></a>
             </div>
-            <p className="tweet__conteudo">{ props.children }</p>
+            <p onClick={props.onConteudoClicado} className="tweet__conteudo">{ props.children }</p>
             <footer className="tweet__footer">
                 <button className="btn btn--clean">
                     <svg className={"icon icon--small iconHeart " + (props.likeado ? 'iconHeart--active' : '')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5">

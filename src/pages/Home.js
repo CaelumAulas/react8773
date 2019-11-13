@@ -12,6 +12,7 @@ import {
 import { withPermissao } from  './withPermissao.js'
 
 import { FormNovoTweet } from '../components/FormNovoTweet/FormNovoTweet.js'
+import { Modal } from "../components/Modal/Modal.js"
 
 import * as TweetsService from '../model/services/TweetsService.js'
 
@@ -47,6 +48,16 @@ function HomeSemAutenticacao() {
             })
     }
 
+    const [tweetModal, setTweetModal] = useState(null)
+
+    function abreModal(tweet) {
+        setTweetModal(tweet)
+    }
+
+    function fechaModal() {
+        setTweetModal(null)
+    }
+
     useEffect(() => {
         TweetsService.carrega()
             .then((tweets) => {
@@ -74,7 +85,7 @@ function HomeSemAutenticacao() {
                     <Widget>
                         <div className="tweetsArea">
                             { listaTweets.map(tweetInfo => (
-                                <Tweet {...tweetInfo} removeHandler={() => removeTweet(tweetInfo._id)}> 
+                                <Tweet {...tweetInfo} removeHandler={() => removeTweet(tweetInfo._id)} onConteudoClicado={() => abreModal(tweetInfo)}> 
                                     {tweetInfo.conteudo} 
                                 </Tweet>
                             )) }
@@ -82,6 +93,14 @@ function HomeSemAutenticacao() {
                     </Widget>
                 </Dashboard>
             </div>
+
+            <Modal isAberto={tweetModal !== null} onFechando={fechaModal}>
+                {() => (
+                    <Tweet {...tweetModal}>
+                        {tweetModal.conteudo} 
+                    </Tweet>
+                )}
+            </Modal>
         </React.Fragment>
     )
 }
