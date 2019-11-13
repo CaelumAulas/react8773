@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import './tweet.css'
@@ -9,6 +9,7 @@ Tweet.propTypes = {
 
 export function Tweet(props) {
     // RETORNA um Elemento
+
     return (
         <article className="tweet">
             <div className="tweet__cabecalho">
@@ -18,7 +19,7 @@ export function Tweet(props) {
             </div>
             <p onClick={props.onConteudoClicado} className="tweet__conteudo">{ props.children }</p>
             <footer className="tweet__footer">
-                <button className="btn btn--clean">
+                <button className="btn btn--clean" onClick={props.onLike}>
                     <svg className={"icon icon--small iconHeart " + (props.likeado ? 'iconHeart--active' : '')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5">
                         <defs>
                             <clipPath id="a">

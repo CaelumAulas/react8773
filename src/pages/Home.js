@@ -40,15 +40,16 @@ function HomeSemAutenticacao() {
             })
     }
 
+    const [tweetModal, setTweetModal] = useState(null)
+
     function removeTweet(id) {
         TweetsService
             .remove(id)
             .then(() => {
                 setListaTweets(listaTweets.filter(({_id}) => id !== _id))
+                setTweetModal(null)
             })
     }
-
-    const [tweetModal, setTweetModal] = useState(null)
 
     function abreModal(tweet) {
         setTweetModal(tweet)
@@ -64,6 +65,15 @@ function HomeSemAutenticacao() {
                 setListaTweets(tweets)
             })
     }, [])
+
+    function dahLike(id) {
+        const tweetLikeado = listaTweets.find(({_id}) => id === _id)
+
+        tweetLikeado.likeado = true
+        tweetLikeado.totalLikes = tweetLikeado.totalLikes + 1 
+
+        setListaTweets([...listaTweets])
+    }
 
     return (
         <React.Fragment>
@@ -85,7 +95,7 @@ function HomeSemAutenticacao() {
                     <Widget>
                         <div className="tweetsArea">
                             { listaTweets.map(tweetInfo => (
-                                <Tweet {...tweetInfo} removeHandler={() => removeTweet(tweetInfo._id)} onConteudoClicado={() => abreModal(tweetInfo)}> 
+                                <Tweet {...tweetInfo} onLike={() => dahLike(tweetInfo._id)} removeHandler={() => removeTweet(tweetInfo._id)} onConteudoClicado={() => abreModal(tweetInfo)}> 
                                     {tweetInfo.conteudo} 
                                 </Tweet>
                             )) }
@@ -96,7 +106,7 @@ function HomeSemAutenticacao() {
 
             <Modal isAberto={tweetModal !== null} onFechando={fechaModal}>
                 {() => (
-                    <Tweet {...tweetModal}>
+                    <Tweet {...tweetModal} onLike={() => dahLike(tweetModal._id)} removeHandler={() => removeTweet(tweetModal._id)}>
                         {tweetModal.conteudo} 
                     </Tweet>
                 )}
