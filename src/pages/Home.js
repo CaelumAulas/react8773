@@ -16,6 +16,8 @@ import { Modal } from "../components/Modal/Modal.js"
 
 import * as TweetsService from '../model/services/TweetsService.js'
 
+import { store } from '../store.js'
+
 function AreaNovoTweet(props) {
     return (
         <React.Fragment>
@@ -33,8 +35,22 @@ function AreaNovoTweet(props) {
 function HomeSemAutenticacao() {
     const [ listaTweets, setListaTweets ] = useState([])
 
-    function adicionaTweet(novoTweet) {
-        TweetsService.adiciona(novoTweet)
+    store.subscribe(() => {
+        setListaTweets(store.getState().listaTweets)
+    })
+
+    useEffect(() => {
+        TweetsService.carrega()
+            .then((tweets) => {
+                store.dispatch({
+                    type: "LISTA",
+                    lista: tweets
+                })
+            })
+    }, [])
+
+    function adicionaTweet(textoNovoTweet) {
+        TweetsService.adiciona(textoNovoTweet)
             .then((novoTweetInfo) => {
                 setListaTweets([ novoTweetInfo , ...listaTweets])
             })
@@ -59,20 +75,8 @@ function HomeSemAutenticacao() {
         setTweetModal(null)
     }
 
-    useEffect(() => {
-        TweetsService.carrega()
-            .then((tweets) => {
-                setListaTweets(tweets)
-            })
-    }, [])
-
     function dahLike(id) {
-        const tweetLikeado = listaTweets.find(({_id}) => id === _id)
-
-        tweetLikeado.likeado = true
-        tweetLikeado.totalLikes = tweetLikeado.totalLikes + 1 
-
-        setListaTweets([...listaTweets])
+      store.dispatch({type: "LIKE", id: id})
     }
 
     return (
