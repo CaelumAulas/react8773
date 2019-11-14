@@ -1,8 +1,12 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+
+import thunkMiddleware from 'redux-thunk'
+
+import * as TweetsService from './model/services/TweetsService.js'
 
 const ESTADO_INICIAL = { listaTweets: [] }
 
-export const store = createStore(function reducer(estado = ESTADO_INICIAL, acao) {
+function reducer(estado = ESTADO_INICIAL, acao) {
 
     if (acao.type === "LISTA") {
         return {
@@ -24,7 +28,14 @@ export const store = createStore(function reducer(estado = ESTADO_INICIAL, acao)
     }
 
     return estado
-})
+}
+
+export const store = createStore(
+    reducer,
+    applyMiddleware(
+        thunkMiddleware
+    )
+)
 
 
 // Action Creators
@@ -38,10 +49,22 @@ export const criaAcaoLista = (tweets) => {
 }
 
 export const criaAcaoLike = (id) => {
+    // objeto
     return {
         type: "LIKE", 
         payload: {
             id: id
         }
+    }
+}
+
+//Thunk Action Creator
+export const criaAcaoCarrega = () => {
+    return (dispatch) => {
+        TweetsService
+            .carrega()
+            .then((tweets) => {
+                dispatch(criaAcaoLista(tweets))
+            })
     }
 }
