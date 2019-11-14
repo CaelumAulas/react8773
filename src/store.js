@@ -6,12 +6,12 @@ export const store = createStore(function reducer(estado = ESTADO_INICIAL, acao)
 
     if (acao.type === "LISTA") {
         return {
-            listaTweets: acao.lista
+            listaTweets: acao.payload.lista
         }
     }
 
     if (acao.type === "LIKE") {
-        const tweetLikeado = estado.listaTweets.find(({_id}) => acao.id === _id)
+        const tweetLikeado = estado.listaTweets.find(({_id}) => acao.payload.id === _id)
 
         if(tweetLikeado) {
             tweetLikeado.likeado = true
@@ -25,3 +25,23 @@ export const store = createStore(function reducer(estado = ESTADO_INICIAL, acao)
 
     return estado
 })
+
+
+// Action Creators
+export const criaAcaoLista = (tweets) => {
+    return {
+        type: "LISTA",
+        payload: {
+            lista: tweets
+        }
+    }
+}
+
+export const criaAcaoLike = (id) => {
+    return {
+        type: "LIKE", 
+        payload: {
+            id: id
+        }
+    }
+}

@@ -16,7 +16,7 @@ import { Modal } from "../components/Modal/Modal.js"
 
 import * as TweetsService from '../model/services/TweetsService.js'
 
-import { store } from '../store.js'
+import { store, criaAcaoLista, criaAcaoLike} from '../store.js'
 
 function AreaNovoTweet(props) {
     return (
@@ -42,10 +42,7 @@ function HomeSemAutenticacao() {
     useEffect(() => {
         TweetsService.carrega()
             .then((tweets) => {
-                store.dispatch({
-                    type: "LISTA",
-                    lista: tweets
-                })
+                store.dispatch(criaAcaoLista(tweets))
             })
     }, [])
 
@@ -76,7 +73,7 @@ function HomeSemAutenticacao() {
     }
 
     function dahLike(id) {
-      store.dispatch({type: "LIKE", id: id})
+        store.dispatch(criaAcaoLike(id))
     }
 
     return (
