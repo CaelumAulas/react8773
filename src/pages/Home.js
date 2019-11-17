@@ -16,7 +16,9 @@ import { Modal } from "../components/Modal/Modal.js"
 
 import * as TweetsService from '../model/services/TweetsService.js'
 
-import { store, criaAcaoCarrega, criaAcaoLike} from '../store.js'
+import { store } from '../store.js'
+
+import { criaAcaoCarrega, criaAcaoLike } from '../ducks/listaTweets/listaTweets.js'
 
 function AreaNovoTweet(props) {
     return (
